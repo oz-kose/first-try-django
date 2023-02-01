@@ -4,6 +4,9 @@ To render html web pages
 from django.http import HttpResponse
 
 from articles.models import Article
+from django.template.loader import render_to_string
+
+#MVT MODEL VIEW TEMPLATE
 
 def home_view(request):
     """
@@ -14,17 +17,21 @@ def home_view(request):
 
     #from database
     article_obj = Article.objects.get(id=4)
+    object_queryset = Article.objects.all()
+    word_salad = ['yes', 'why', 'dumb', 'right', 'whatever']
+    context = {
+        "object_queryset": object_queryset,
+        "word_salad": word_salad,
+        "title": article_obj.title,
+        "content": article_obj.title
+    }
 
-    H1_STRING = f"""
-    <h1>{article_obj.title}</h1>
-    """
-    P1_STRING = f"""
-    <h1>{article_obj.content}</h1>
-    """
-    P2_STRING = """
-    <h1>rando stuff</h1>
-    """
-
-    HTML_STRING = H1_STRING + P1_STRING + P2_STRING
+    HTML_STRING = render_to_string("home-view.html", context=context)
+    # HTML_STRING = 
+    # """
+    # <h1>{title}</h1>
+    # <p>{content}</p>
+    # <p>rando stuff</p>
+    # """.format(**context)
 
     return HttpResponse(HTML_STRING)
