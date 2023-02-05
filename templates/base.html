@@ -4,6 +4,28 @@
 
     </head>
     <body>
+        <h1>MockSite</h1>
+        <ul>
+            <li style="display:inline-block;">
+                <a href="/" style="text-decoration:none; color:gray;"><p>Home</p></a>
+            </li>
+            <li style="display:inline-block;">
+                <a href="/login/" style="text-decoration:none; color:gray;"><p>Log In</p></a>
+            </li>
+            <li style="display:inline-block;">
+                <a href="/logout/" style="text-decoration:none; color:gray;"><p>Log Out</p></a>
+            </li>
+            <li style="display:inline-block;">
+                <a href="/articles/create/" style="text-decoration:none; color:gray;"><p>Create</p></a>
+            </li>
+            <li style="display:inline-block;">
+                <a href="/articles/" style="text-decoration:none; color:gray;"><p>Articles</p></a>
+            </li>
+        </ul>
+        <form action='/articles/'>
+            <input type='text' name='q' placeholder='Search Articles'/>
+            <input type="Submit"/>
+        </form>
 
         {% block content %}
         {% endblock content %}

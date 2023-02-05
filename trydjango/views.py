@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 
 #MVT MODEL VIEW TEMPLATE
 
-def home_view(request):
+def home_view(request, id=None, *args, **kwargs):
     """
     Take in a request (Django sends request)
     Return HTML as a response (We pick to return the response)
@@ -16,14 +16,14 @@ def home_view(request):
 
 
     #from database
-    article_obj = Article.objects.get(id=4)
+    article_obj = Article.objects.get(id=1)
     object_queryset = Article.objects.all()
     word_salad = ['yes', 'why', 'dumb', 'right', 'whatever']
     context = {
         "object_queryset": object_queryset,
         "word_salad": word_salad,
-        "title": article_obj.title,
-        "content": article_obj.title
+        # "title": article_obj.title,
+        # "content": article_obj.title
     }
 
     HTML_STRING = render_to_string("home-view.html", context=context)
