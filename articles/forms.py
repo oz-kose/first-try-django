@@ -1,23 +1,20 @@
 from django import forms
+from .models import Article
 
-class ArticleForm(forms.Form):
-    title = forms.CharField()
-    content = forms.CharField()
 
-    # def clean_title(self):
-    #     cleaned_data = self.cleaned_data # dictionary
-    #     title = cleaned_data.get("title")
-    #     if title.lower().strip() == "the title":
-    #         raise forms.ValidationError("This tittle is taken.")
-    #     return title
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ["title", "content"]
 
     def clean(self):
-        cleaned_data = self.cleaned_data
-        title = cleaned_data.get("title")
-        content = cleaned_data.get("content")
-        if title.lower().strip() == "the title":
-            self.add_error("title", "This title is taken.")
-        if "tricky" in content or "tricky" in title.lower():
-            self.add_error("content", "tricky can not be in the content.")
-            raise forms.ValidationError("tricky is not allowed")
-        return cleaned_data
+        data = self.cleaned_data
+        title = data.get("title")
+        qs_t = Article.objects.filter(title__icontains=title)
+        qs_c = Article.objects.filter(title__icontains=title)
+
+        if qs_t.exists():
+            self.add_error("title", f"\"{title}\" is already in use.")
+        if qs_c.exists():
+            self.add_error("content", "This content is duplicated.")
+        return data
